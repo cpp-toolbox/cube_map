@@ -1,0 +1,2 @@
+# cube_map
+SUBPROJECT

@@ -88,12 +88,11 @@ IVPTexturePacked CubeMap::create_face(const std::string &face_name, const std::v
     int packed_texture_bounding_box_index =
         texture_packer.get_packed_texture_bounding_box_index_of_texture(texture_path);
 
-
     // this is really dumb right now, working but fix and make this whole setup better
     std::vector<unsigned int> square_indices = {0, 1, 2, 3, 4, 5};
 
-    return IVPTexturePacked(square_indices, extract_face_vertices(face_indices), packed_coordinates,
-                            packed_texture_index, packed_texture_bounding_box_index, texture_path);
+    return IVPTexturePacked(square_indices, extract_face_vertices(face_indices), base_texture_coordinates,
+                            packed_coordinates, packed_texture_index, packed_texture_bounding_box_index, texture_path);
 }
 
 // L: 0 3 7 7 4 0

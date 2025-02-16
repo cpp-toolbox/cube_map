@@ -25,7 +25,6 @@
 //              |---------|
 //
 
-
 std::vector<glm::vec2> base_texture_coordinates = {
     {0.0f, 0.0f}, // Bottom-left
     {1.0f, 0.0f}, // Bottom-right
@@ -53,14 +52,15 @@ std::vector<glm::vec3> cube_vertex_positions_ = {{-1.0f, -1.0f, 1.0f},  // 0  Co
 // U: 7 6 5 5 4 7
 // D: 0 1 2 2 3 0
 
-
-CubeMap::CubeMap(const std::filesystem::path &cube_map_dir, const std::string &file_extension, TexturePacker &texture_packer)
+CubeMap::CubeMap(const std::filesystem::path &cube_map_dir, const std::string &file_extension,
+                 TexturePacker &texture_packer)
     : cube_map_dir(cube_map_dir), file_extension(file_extension), texture_packer(texture_packer),
       top_face(create_face("up", {7, 6, 5, 5, 4, 7})), bottom_face(create_face("down", {0, 1, 2, 2, 3, 0})),
       left_face(create_face("left", {0, 3, 7, 7, 4, 0})), right_face(create_face("right", {2, 1, 5, 5, 6, 2})),
       front_face(create_face("front", {3, 2, 6, 6, 7, 3})), back_face(create_face("back", {1, 0, 4, 4, 5, 1})) {}
 
-IVPTexturePacked CubeMap::create_face(const std::string &face_name, const std::vector<unsigned int> &face_indices) {
+draw_info::IVPTexturePacked CubeMap::create_face(const std::string &face_name,
+                                                 const std::vector<unsigned int> &face_indices) {
     auto create_path = [&](const std::string &file_name) {
         return (cube_map_dir / (file_name + "." + file_extension)).string();
     };
@@ -84,8 +84,9 @@ IVPTexturePacked CubeMap::create_face(const std::string &face_name, const std::v
 
     std::vector<unsigned int> square_indices = {0, 1, 2, 3, 4, 5};
 
-    return IVPTexturePacked(square_indices, extract_face_vertices(face_indices), base_texture_coordinates,
-                            packed_coordinates, packed_texture_index, packed_texture_bounding_box_index, texture_path);
+    return draw_info::IVPTexturePacked(square_indices, extract_face_vertices(face_indices), base_texture_coordinates,
+                                       packed_coordinates, packed_texture_index, packed_texture_bounding_box_index,
+                                       texture_path);
 }
 
 void CubeMap::regenerate() {
